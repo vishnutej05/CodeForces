@@ -1,6 +1,5 @@
 const axios = require("axios");
-
-async function fetchSubmissions(username) {
+const fetchSubmissions = async (username) => {
   try {
     const url = `https://codeforces.com/api/user.status?handle=${username}&from=1&count=10000`;
     const response = await axios.get(url);
@@ -27,7 +26,9 @@ async function fetchSubmissions(username) {
     console.error("Error:", error);
     return [];
   }
-}
+};
 
-const username = "Tvish7962";
-fetchSubmissions(username);
+// fetchSubmissions("Tvish7962");
+module.exports = {
+  fetchSubmissions,
+};
