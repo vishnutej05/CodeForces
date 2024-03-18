@@ -1,34 +1,39 @@
 const axios = require("axios");
-const fetchSubmissions = async (username) => {
+const codeforcesStats = async (req, res) => {
   try {
-    const url = `https://codeforces.com/api/user.status?handle=${username}&from=1&count=10000`;
-    const response = await axios.get(url);
+    // Make API call to fetch user submissions from Codeforces
+    const response = await axios.get(
+      `https://codeforces.com/api/user.status?handle=${req.params.handle}&from=1&count=10000`
+    );
     const submissions = response.data.result;
 
+    // Filter successful submissions (verdict = "OK")
     const successfulSubmissions = submissions.filter(
       (submission) => submission.verdict === "OK"
     );
 
-    const extractedData = successfulSubmissions.map((submission) => {
-      const submissionTime = new Date(
-        submission.creationTimeSeconds * 1000
-      ).toLocaleDateString("en-GB");
-      const problemName = submission.problem.name;
+    // Construct an array to store extracted links
+    const linksArray = [];
+    successfulSubmissions.forEach((submission) => {
       const problemLink = `https://codeforces.com/problemset/problem/${submission.problem.contestId}/${submission.problem.index}`;
-      return { time: submissionTime, name: problemName, link: problemLink };
+      linksArray.push(problemLink);
     });
 
-    console.log(extractedData);
-    console.log(extractedData.length);
+    // Construct response data
+    const responseData = {
+      success: true,
+      links: linksArray,
+    };
 
-    return extractedData;
-  } catch (error) {
-    console.error("Error:", error);
-    return [];
+    // Send response
+    console.log(responseData);
+    res.status(200).send(responseData);
+  } catch (err) {
+    // Handle errors
+    res.status(500).send({ success: false, error: err.message });
   }
 };
 
-// fetchSubmissions("Tvish7962");
 module.exports = {
-  fetchSubmissions,
+  codeforcesStats,
 };
