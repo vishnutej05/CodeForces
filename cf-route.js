@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { codeforcesStats } = require("./codeforces.js");
+const { codeforcesStats } = require("../codeforces.js");
 
 router.get("/:handle", codeforcesStats);
 
