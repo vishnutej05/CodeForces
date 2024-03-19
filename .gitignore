@@ -1,0 +1,27 @@
+echo "# Node.js dependencies
+node_modules/
+
+# Compiled binary files
+*.o
+*.out
+*.exe
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+
+# Environment variables
+.env
+
+# Editor and IDE files
+.vscode/
+.idea/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Dependency lock files
+package-lock.json
+yarn.lock" > CodeForces/.gitignore
